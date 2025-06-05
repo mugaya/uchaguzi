@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block page_title %} {{ page_header }} {{ name }} {% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}	
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-9 -->
+	<div class="col-lg-9">
+		<!-- begin card-forum -->
+		<div class="card card-forum mb-4">
+			<!-- begin forum-list -->
+			<ul class="forum-list forum-topic-list">
+
+				<li>
+					<!-- begin media -->
+					<div class="media">
+						<img src="{% static 'img/kenya.png' %}" alt="" class="rounded-lg" />
+					</div>
+					<!-- end media -->
+					<!-- begin info-container -->
+					<div class="info-container">
+						<div class="info">
+							<h4 class="title"><a href="#">Polling Centers - {{ area_name }}</a></h4>
+							<ul class="info-start-end">
+								<li>Total Voters : {{ counts.total_voters|intcomma }} - <a href="#">Details</a></li>
+							</ul>
+						</div>
+						<div class="date-replies">
+							<div class="replies">
+								<div class="total">{{ counts.total_ps|intcomma }}</div>
+								<div class="text">PS</div>
+							</div>
+						</div>
+					</div>
+					<!-- end info-container -->
+				</li>
+				{% if p_centers %}
+				<li>
+					<hr>
+					    <table class="table">
+						<thead>
+							<tr>
+								<th></th><th>COUNTY</th>
+								<th align="right" width="20%">Registered Voters</th>
+								<th align="right" width="20%">Polling Stations</th>
+								<th></th>
+							</tr>
+						</thead>
+						{% for ps in p_centers %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ ps.county__name }} </td>
+							<td align="right">{{ ps.t_voters|intcomma }}</td>
+							<td align="right">{{ ps.t_ps|intcomma }}</td>
+							<td><a href="{% url 'p_station' rid=2 area_id=ps.county__code %}">Details</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td></td>
+							<td></td>
+							<td align="right">{{ counts.total_voters|intcomma }}</td>
+							<td align="right">{{ counts.total_ps|intcomma }}</td>
+							<td></td>
+						</tr>
+                        </table>
+                </li>
+                {% endif %}
+                {% if c_centers %}
+				<li>
+					<hr>
+					    <table class="table">
+						<thead>
+							<tr>
+								<th></th><th>CONSTITUENCY</th>
+								<th align="right" width="20%">Registered Voters</th>
+								<th align="right" width="20%">Polling Stations</th>
+								<th></th>
+							</tr>
+						</thead>
+						{% for ps in c_centers %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ ps.constituency__name }} </td>
+							<td align="right">{{ ps.t_voters|intcomma }}</td>
+							<td align="right">{{ ps.t_ps|intcomma }}</td>
+							<td><a href="{% url 'p_station' rid=3 area_id=ps.constituency__code %}">Details</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td></td>
+							<td></td>
+							<td align="right">{{ counts.total_voters|intcomma }}</td>
+							<td align="right">{{ counts.total_ps|intcomma }}</td>
+							<td></td>
+						</tr>
+                        </table>
+                </li>
+                {% endif %}
+                {% if w_centers %}
+				<li>
+					<hr>
+					    <table class="table">
+						<thead>
+							<tr>
+								<th></th><th>WARDS</th>
+								<th align="right" width="20%">Registered Voters</th>
+								<th align="right" width="20%">Polling Stations</th>
+								<th></th>
+							</tr>
+						</thead>
+						{% for ps in w_centers %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ ps.ward__name }} </td>
+							<td align="right">{{ ps.t_voters|intcomma }}</td>
+							<td align="right">{{ ps.t_ps|intcomma }}</td>
+							<td><a href="{% url 'pc' rid=4 ward_id=ps.ward__code %}">Details</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td></td>
+							<td></td>
+							<td align="right"><b>{{ counts.total_voters|intcomma }}</b></td>
+							<td align="right"><b>{{ counts.total_ps|intcomma }}</b></td>
+							<td></td>
+						</tr>
+                        </table>
+                </li>
+                {% endif %}
+                {% if r_centers %}
+				<li>
+					<hr>
+					    <table class="table">
+						<thead>
+							<tr>
+								<th></th><th>POLLING CENTERS</th>
+								<th align="right" width="20%">Registered Voters</th>
+								<th align="right" width="20%">Polling Stations</th>
+							</tr>
+						</thead>
+						{% for ps in r_centers %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ ps.ps_name }} </td>
+							<td align="right">{{ ps.t_voters|intcomma }}</td>
+							<td align="right">{{ ps.t_ps|intcomma }}</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td></td>
+							<td></td>
+							<td align="right"><b>{{ counts.total_voters|intcomma }}</b></td>
+							<td align="right"><b>{{ counts.total_ps|intcomma }}</b></td>
+						</tr>
+                        </table>
+                </li>
+                {% endif %}
+			</ul>
+			<!-- end forum-list -->
+		</div>
+		<!-- end card-forum -->
+	</div>
+	<!-- end col-9 -->
+	<!-- begin col-3 -->
+	<div class="col-lg-3">
+		<!-- begin panel-forum -->
+		<div class="card card-forum">
+			<div class="card-header fw-bold">Related</div>
+			<!-- begin threads-list -->
+			<ul class="threads-list">
+				{% if areas %}
+				{% for area in areas %}
+				{% if rid == 4 %}
+				<li>
+					<h4 class="title"><a href="{% url 'pc' rid=4 ward_id=area.code %}">{{ area.name }}</a></h4>
+				</li>
+				{% else %}
+				<li>
+					<h4 class="title"><a href="{% url 'p_station' rid=3 area_id=area.code %}">{{ area.name }} </a></h4>
+				</li>
+				{% endif %}
+
+				{% endfor %}
+				{% else %}
+				<li>
+					<h4 class="title"><a href="{% url 'ps' %}">County Listing</a></h4>
+				</li>
+				{% endif %}		
+			</ul>
+			<!-- end threads-list -->
+		</div>
+		<!-- end panel-forum -->
+	</div>
+	<!-- end col-3 -->
+</div>
+<!-- end row -->
+{% endblock %}

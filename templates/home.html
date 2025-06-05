@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %} Kenya elections 2022 {% endblock %}
+
+{% block banner %}
+
+<!-- begin search-banner -->
+<div class="search-banner has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01" style="background-image: url({% static 'img/cover/cover-1.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<h1>15,711 Candidates for election</h1>
+		<form action="/search/" method="GET">
+		<div class="input-group">		
+			<input name="s" type="text" class="form-control form-control-lg" placeholder="Name of candidates, county, constituency, ward, polling station or party/abbrev" />
+			<button type="submit" class="btn btn-lg"><i class="fa fa-search"></i></button>
+
+		</div>
+		</form>
+		<h5 class="fs-14px mb-10px">Browse by Popular Categories</h5>
+		<ul class="popular-tags">
+			<li><a href="{% url 'position' pos_id='PR' %}"><i class="fa fa-circle"></i> President</a></li>
+			<li><a href="{% url 'position' pos_id='GV' %}"><i class="fa fa-circle"></i> Governor</a></li>
+			<li><a href="{% url 'position' pos_id='SN' %}"><i class="fa fa-circle"></i> Senate</a></li>
+			<li><a href="{% url 'position' pos_id='WR' %}"><i class="fa fa-circle"></i> Woman Rep</a></li>
+			<li><a href="{% url 'position' pos_id='MP' %}"><i class="fa fa-circle"></i> MP</a></li>
+			<li><a href="{% url 'position' pos_id='MC' %}"><i class="fa fa-circle"></i> MCA</a></li>
+		</ul>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end search-banner -->
+
+{% endblock %}
+{% block primary %}
+<div class="row">
+	<div class="col-lg-1">
+		<p>
+		<a href="{% url 'vote' %}" class="btn btn-green"><i class="fas fa-map-location"></i> Vote </a>
+		</p>
+	</div>
+	<div class="col-lg-11">
+		
+		<!-- begin card-forum -->
+<div class="card card-forum mb-3">
+	<!-- begin card-header -->
+	<div class="card-header rounded-0 fw-bold">
+		Elective Positions for the year 2022 General Elections
+	</div>
+	<!-- end card-header -->
+	<!-- begin forum-list -->
+	<ul class="forum-list">
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='PR' %}">President</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">1</span> <span class="divider">/</span> <span class="total-comment">4</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='PR' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='PR' %}">Results</a> </h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='GV' %}">Governors</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">47</span> <span class="divider">/</span> <span class="total-comment">258</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='GV' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='GV' %}">Results</a></h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='SN' %}">Senators</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">47</span> <span class="divider">/</span> <span class="total-comment">342</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='SN' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='SN' %}">Results</a></h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='WR' %}">Women Representative</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">47</span> <span class="divider">/</span> <span class="total-comment">359</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='WR' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='WR' %}">Results</a></h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='MP' %}">Member of National Assembly</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">290</span> <span class="divider">/</span> <span class="total-comment">2,131</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='MP' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='MP' %}">Results</a></h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		<li>
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'position' pos_id='MC' %}">Member of County Assembly</a></h4>
+				</div>
+				<div class="total-count">
+					<span class="total-post">1,450</span> <span class="divider">/</span> <span class="total-comment">12,617</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'candidate' pos_id='MC' %}">Track Candidates</a> | <a href="{% url 'result' pos_id='MC' %}">Results</a></h4>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+	</ul>
+	<!-- end forum-list -->
+</div>
+<!-- end card-forum -->
+</div>
+<div class="col-lg-12">
+<div class="alert alert-danger alert-dismissible fade show">
+  <strong>Notice !</strong>
+  "The following elections were suspended by the IEBC on the evening of 8.8.2022. Kacheliba constituency, MP; Pokot South constituency,MP; Kakamega County, Governor; and Mombasa County, Governor. New dates for these seats will be announced through a Gazette Notice.". 
+</div>
+
+</div>
+
+</div>
+
+
+{% endblock %}

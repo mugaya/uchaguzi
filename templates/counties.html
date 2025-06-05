@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block page_title %} {{ page_header }} {{ name }} {% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}	
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-9 -->
+	<div class="col-lg-9">
+		{% if not county_id %}
+		<!-- begin pagination -->
+		<ul class="pagination justify-content-end mb-4">
+			<li class="page-item {% if page == 1 %} active {% endif %}"><a href="?page=1" class="page-link">1</a></li>
+			<li class="page-item {% if page == 2 %} active {% endif %}"><a href="?page=2" class="page-link">2</a></li>
+			<li class="page-item {% if page == 3 %} active {% endif %}"><a href="?page=3" class="page-link">3</a></li>
+			<li class="page-item {% if page == 4 %} active {% endif %}"><a href="?page=4" class="page-link">4</a></li>
+			<li class="page-item text"><span>...</span></li>
+			<li class="page-item {% if page == 5 %} active {% endif %}"><a href="?page=5" class="page-link">5</a></li>
+			<li class="page-item right"><a href="?page={{ next_page }}" class="page-link"><i class="fa fa-chevron-right"></i></a></li>
+		</ul>
+		<!-- end pagination -->
+		{% endif %}
+		<!-- begin card-forum -->
+		<div class="card card-forum mb-4">
+			<!-- begin forum-list -->
+			<ul class="forum-list forum-topic-list">
+				{% for county in counties %}
+				<li>
+					<!-- begin media -->
+					<div class="media">
+						<img src="{% static 'img/kenya.png' %}" alt="" class="rounded-lg" />
+					</div>
+					<!-- end media -->
+					<!-- begin info-container -->
+					<div class="info-container">
+						<div class="info">
+							<h4 class="title"><a href="{% url 'county' county_id=county.code %}">County : {{ county.name }} </a></h4>
+							<ul class="info-start-end">
+								{% if county_id %}
+								<li>Governor ({{ counts.GV }}), Senator ({{ counts.SN }}), Women Representative ({{ counts.WR }}) - <a href="{% url 'county' county_id=county.code %}">Details</a></li>
+								<li>Registered Voters: {{ counts.voters|intcomma }}</li>
+								{% else %}
+								<li>Governor ({{ county.GV }}), Senator ({{ county.SN }}), Women Representative ({{ county.WR }}) - <a href="{% url 'county' county_id=county.code %}">Details</a></li>
+								<li>Registered Voters: {{ county.voters|intcomma }}</li>
+								{% endif %}
+							</ul>
+						</div>
+						<div class="date-replies">
+							<div class="replies">
+								<div class="total">{{ county.code }}</div>
+								<div class="text">CODE</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- end info-container -->
+				</li>
+				{% if county_id %}
+				<li>
+					<hr>
+					    <table class="table">
+						{% if governors %}
+						<thead>
+							<tr><th colspan="3"><b>GOVERNOR</b></th></tr>
+						</thead>
+						{% for governor in governors %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ governor.candidate_names }} - <small>{{ governor.running_mate_names }}</small></td>
+							<td>{{ governor.party_name }}</td></tr>
+						{% endfor %}
+
+						{% endif %}
+
+						{% if senators %}
+						<thead>
+							<tr><th colspan="3"><b>SENATE</b></th></tr>
+						</thead>
+						{% for senator in senators %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ senator.candidate_names }}</td>
+							<td>{{ senator.party_name }}</td></tr>
+						{% endfor %}
+						{% endif %}
+
+						{% if wreps %}
+						<thead>
+							<tr><th colspan="3"><b>WOMEN REPRESENTATIVE</b></th></tr>
+						</thead>
+						{% for wrep in wreps %}
+						<tr>
+							<td>{{ forloop.counter }}. </td>
+							<td>{{ wrep.candidate_names }}</td>
+							<td>{{ wrep.party_name }}</td></tr>
+						{% endfor %}
+
+						{% endif %}
+						</table>
+				</li>
+				{% endif %}
+				{% endfor %}
+
+			</ul>
+			<!-- end forum-list -->
+		</div>
+		<!-- end card-forum -->
+		{% if not county_id %}
+		<!-- begin pagination -->
+		<ul class="pagination justify-content-end mb-4 mb-lg-0">
+			<li class="page-item {% if page == 1 %} active {% endif %}"><a href="?page=1" class="page-link">1</a></li>
+			<li class="page-item {% if page == 2 %} active {% endif %}"><a href="?page=2" class="page-link">2</a></li>
+			<li class="page-item {% if page == 3 %} active {% endif %}"><a href="?page=3" class="page-link">3</a></li>
+			<li class="page-item {% if page == 4 %} active {% endif %}"><a href="?page=4" class="page-link">4</a></li>
+			<li class="page-item text"><span>...</span></li>
+			<li class="page-item {% if page == 5 %} active {% endif %}"><a href="?page=5" class="page-link">5</a></li>
+			<li class="page-item right"><a href="?page={{ next_page }}" class="page-link"><i class="fa fa-chevron-right"></i></a></li>
+		</ul>
+		<!-- end pagination -->
+		{% endif %}
+	</div>
+	<!-- end col-9 -->
+	<!-- begin col-3 -->
+	<div class="col-lg-3">
+		<!-- begin panel-forum -->
+		<div class="card card-forum">
+			<div class="card-header fw-bold">Constituencies</div>
+			<!-- begin threads-list -->
+			<ul class="threads-list">
+				{% if cons %}
+				{% for con in cons %}
+				<li>
+					<h4 class="title"><a href="{% url 'constituency' const_id=con.code %}">{{ con.code }} : {{ con.name }}</a></h4>
+					<a href="{% url 'constituency' const_id=con.code %}">Track Candidates</a> | <a href="#">Results</a>
+				</li>
+				{% endfor %}
+				{% else %}
+				<li>
+					<h4 class="title">No related geo location</h4>
+				</li>
+				{% endif %}		
+			</ul>
+			<!-- end threads-list -->
+		</div>
+		<!-- end panel-forum -->
+	</div>
+	<!-- end col-3 -->
+</div>
+<!-- end row -->
+{% endblock %}

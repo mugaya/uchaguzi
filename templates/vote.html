@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %} Locate a polling station, where to vote and who to vote for {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/plugins/leaflet/leaflet.css" />
+<script src="/static/plugins/leaflet/leaflet.js" ></script>
+<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+{% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}
+<form action="/search/" method="GET">
+<div class="row">	
+	<div class="col-lg-4">
+		<h4>Where and who ?</h4>
+	</div>
+	<div class="col-lg-8">
+        <!-- begin section-container -->
+		<div class="section-container">
+			<div class="input-group sidebar-search">
+				<input type="hidden" name="category" value="5">
+				<input name="s" type="text" class="form-control" value="{{ name }}" placeholder="Locate a polling station / candidates e.g gikomba market ..." />
+				<button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+			</div>
+		</div>
+		<!-- end section-container -->
+	</div>
+</div>
+</form>
+
+<!-- begin card-forum -->
+<div class="card card-forum">
+	<div id='map'></div>
+</div>
+<!-- end card-forum -->
+
+{% endblock %}
+{% block lazy_js %}
+<script>
+	var map = L.map('map').setView([0.588314, 37.683641], 7);
+
+	var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+</script>
+{% endblock %}

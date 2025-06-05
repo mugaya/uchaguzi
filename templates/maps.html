@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %} Mapping the results {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/plugins/leaflet/leaflet.css" />
+<script src="/static/plugins/leaflet/leaflet.js" ></script>
+<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 680px;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+		.info { 
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 { margin: 0 0 5px; color: #777; }
+        .legend { text-align: left; line-height: 18px; color: #555; }
+        .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+
+        .content{margin: 0;}
+	</style>
+{% endblock %}
+
+{% block primary %}
+
+<!-- begin card-forum -->
+
+<div id='map'></div>
+
+<!-- end card-forum -->
+
+{% endblock %}
+{% block lazy_js %}
+<script>
+	var map = L.map('map').setView([0.588314, 37.683641], 7);
+
+	var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+    var geojson;
+	$.getJSON("/static/maps/constituencies.geojson", function(statesData) {
+	    geojson = L.geoJson(statesData, {
+	        style: style,
+	        onEachFeature: onEachFeature
+	    }).addTo(map);
+	});
+
+	// control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>Form 34B Tallying ({{ tally }})</h4><hr>' +  (props ?
+			'<b>County: ' + props.COUNTY_NAM + '</b><br /><br />' + props.CONSTITUEN + ' ' : 'Hover over a constituency');
+	};
+
+	info.addTo(map);
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 2,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		//map.fitBounds(e.target.getBounds());
+		alert(e.target.properties.CONSTITUEN);
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	function getColor(cid){
+		var tallies = {{ datas }};
+		var cl = tallies[cid];
+		return getColors(cl);
+	}
+
+
+
+	// get color depending on population density value
+	function getColors(d) {
+		return d == 3 ? '#b30000' : d == 2 ? '#FACC00' : d  == 1   ? '#0000FF' : '#808080';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.CONST_CODE)
+		};
+	}
+	// CONSTITUEN COUNTY_NAM
+
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		var grades = ['Not Reported', 'RAILA', 'RUTO', 'Problematic 34B'];
+		var labels = [];
+		var from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+
+			labels.push(
+				'<i style="background:' + getColors(i) + '"></i> ' + grades[i]);
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+	
+</script>
+{% endblock %}

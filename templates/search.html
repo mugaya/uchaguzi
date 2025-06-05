@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block page_title %} Search for candidate at Governor, Senate, Women Rep, MP, MCA and Polling Station {% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}
+<form action="/search/" method="GET">
+<div class="row">	
+	<div class="col-lg-6">
+		<i class="fas fa-filter"></i> &nbsp;&nbsp;
+		<input type="radio" name="category" value="2" {% if category == 2 %} checked {% endif %}> Governor, Senator, Women Rep
+		<input type="radio" name="category" value="3" {% if category == 3 %} checked {% endif %}> MP
+		<input type="radio" name="category" value="4" {% if category == 4 %} checked {% endif %}> MCA
+		<input type="radio" name="category" value="5" {% if category == 5 %} checked {% endif %}> Polling Station
+
+	</div>
+	<div class="col-lg-6">
+        <!-- begin section-container -->
+		<div class="section-container">
+			<div class="input-group sidebar-search">
+				<input name="s" type="text" class="form-control" value="{{ name }}" placeholder="Name of candidate, county, constituency, ward, polling station or party/abbrev" />
+				<button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+			</div>
+		</div>
+		<!-- end section-container -->
+	</div>
+	<hr>
+</div>
+</form>
+
+<!-- begin card-forum -->
+<div class="card card-forum">
+	<!-- begin card-header -->
+	<div class="card-header rounded-0 fw-bold">
+		Search Results for {{ name }}
+	</div>
+	<!-- end card-header -->
+	<!-- begin forum-list -->
+	<ul class="forum-list">
+		{% if results %}
+		{% for result in results %}
+		<li>
+			<!-- begin media -->
+			<div class="media">
+				{{ forloop.counter }}
+			</div>
+			<!-- end media -->
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'county' county_id=result.county.code %}">{{ result.candidate_names }} </a> {% if result.position == 2 %} - <small>{{ result.running_mate_names }}</small>{% endif %}</h4>
+					<p class="desc">
+						Position: {% if result.position == 2 %} Governor {% elif result.position == 3 %} Senator {% elif result.position == 4 %} Women Representative {% else %} Member of National Assembly (MP) {% endif %}
+					    <br>Party: {{ result.party.name }}
+				    </p>
+				</div>
+				<div class="total-count">
+					<span class="total-post">{{ result.county.code }}</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'county' county_id=result.county.code %}">{{ result.county.name }}</a></h4>
+					<p class="time">View <a href="{% url 'county' county_id=result.county.code %}" class="user">Details</a></p>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		{% endfor %}
+		{% elif mresults %}
+		{% for result in mresults %}
+		<li>
+			<!-- begin media -->
+			<div class="media">
+				{{ forloop.counter }}
+			</div>
+			<!-- end media -->
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'constituency' const_id=result.constituency.code %}">{{ result.candidate_names }} </a> </h4>
+					<p class="desc">
+						Position: Member of National Assembly (MP)
+					    <br>Party: {{ result.party.name }}
+				    </p>
+				</div>
+				<div class="total-count">
+					<span class="total-post">{{ result.constituency.code }}</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'constituency' const_id=result.constituency.code %}">{{ result.county.name }} | {{ result.constituency.name }}</a></h4>
+					<p class="time">View <a href="{% url 'constituency' const_id=result.constituency.code %}" class="user">Details</a></p>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		{% endfor %}
+		{% elif wresults %}
+		{% for result in wresults %}
+		<li>
+			<!-- begin media -->
+			<div class="media">
+				{{ forloop.counter }}
+			</div>
+			<!-- end media -->
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'constituency' const_id=result.constituency.code %}">{{ result.candidate_names }}</a></h4>
+					<p class="desc">
+						Position: Member of County Assembly (MCA)
+					    <br>Party: {{ result.party.name }}
+				    </p>
+				</div>
+				<div class="total-count">
+					<span class="total-post">{{ result.ward.code }}</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"><a href="{% url 'constituency' const_id=result.constituency.code %}">{{ result.county.name }} | {{ result.constituency.name }} | {{ result.ward.name }}</a></h4>
+					<p class="time">View <a href="{% url 'constituency' const_id=result.constituency.code %}" class="user">Details</a></p>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		{% endfor %}
+		{% elif presults %}
+		{% for result in presults %}
+		<li>
+			<!-- begin media -->
+			<div class="media">
+				{{ forloop.counter }}
+			</div>
+			<!-- end media -->
+			<!-- begin info-container -->
+			<div class="info-container">
+				<div class="info">
+					<h4 class="title"><a href="{% url 'pc' rid=4 ward_id=result.ward.code %}">{{ result.ps_name }}</a></h4>
+					<p class="desc">
+						Registered Voters: {{ result.reg_voters|intcomma }}
+					    <br>County: {{ result.county.name }}
+					    <br>Constituency: {{ result.constituency.name }}
+					    <br>Ward: {{ result.ward.name }}
+				    </p>
+				</div>
+				<div class="total-count">
+					<span class="total-post">{{ result.ps_code }}</span>
+				</div>
+				<div class="latest-post">
+					<h4 class="title"> Total Polling Stations : {{ result.ps_stations }} </h4>
+					<p class="time">County Level <a href="{% url 'county' county_id=result.county.code %}" class="user">Candidates</a></p>
+					<p class="time">Constituency (MP) <a href="{% url 'constituency' const_id=result.constituency.code %}" class="user">Candidates</a></p>
+					<p class="time">Ward (MCA) <a href="{% url 'ward' ward_id=result.ward.code %}" class="user">Candidates</a></p>
+				</div>
+			</div>
+			<!-- end info-container -->
+		</li>
+		{% endfor %}
+		{% else %}
+		<li>
+			<p>No results found matching your search criteria.</p>
+		</li>
+		{% endif %}
+	</ul>
+	<!-- end forum-list -->
+</div>
+<!-- end card-forum -->
+
+{% endblock %}

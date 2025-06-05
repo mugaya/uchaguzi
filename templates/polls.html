@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}	
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-12 -->
+	<div class="col-lg-12">
+		<!-- begin card-forum -->
+		<div class="card card-forum mb-4">
+			<!-- begin forum-list -->
+			<ul class="forum-list forum-topic-list">
+
+				<li>
+					<!-- begin media -->
+					<div class="media">
+						<img src="{% static 'img/kenya.png' %}" alt="" class="rounded-lg" />
+					</div>
+					<!-- end media -->
+					<!-- begin info-container -->
+					<div class="info-container">
+						<div class="info">
+							<h4 class="title"><a href="#">Polls</a></h4>
+							<ul class="info-start-end">
+								<li>Last updated <a href="#">{{ today }}</a> EAT</li>
+								<li>Average Turnout of 77.41 % from 2017 Elections</li>
+							</ul>
+						</div>
+						<div class="date-replies">
+							<div class="replies">
+								<div class="total">77.41%</div>
+								<div class="text">TURNOUT</div>
+							</div>
+						</div>
+					</div>
+					<!-- end info-container -->
+				</li>
+				{% if aspirants %}
+				<li>
+					<hr>
+					    <table class="table">
+					    <tr  align="center"><th></th><th>ASPIRANT</th><th>PARTY</th><th>VOTES</th><th width="5%">%</th></tr>
+						{% for aspirant in aspirants %}
+						<tr>
+							<td>{{ forloop.counter }} . </td>
+							<td>{{ aspirant.candidate_names }} - <small>{{ aspirant.running_mate_names }}</small></td>
+							<td>{{ aspirant.party.abbrev }}</td>
+							<td align="right">
+							    {% if forloop.counter == 1 %}{{ votes.total_asp1|intcomma }} {{ votes.total_pasp1 }}
+							    {% elif forloop.counter == 2 %}{{ votes.total_asp2|intcomma }}
+							    {% elif forloop.counter == 3 %}{{ votes.total_asp4|intcomma }}
+							    {% elif forloop.counter == 4 %}{{ votes.total_asp3|intcomma }}
+							    {% endif %}
+							</td>
+							<td align="right">
+							    {% if forloop.counter == 1 %}{{ votes.total_pasp1|intcomma }}
+							    {% elif forloop.counter == 2 %}{{ votes.total_pasp2|intcomma }}
+							    {% elif forloop.counter == 3 %}{{ votes.total_pasp4|intcomma }}
+							    {% elif forloop.counter == 4 %}{{ votes.total_pasp3|intcomma }}
+							    {% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+
+				        </table>
+				</li>
+				<li>
+					<hr>
+					    <table class="table">
+					    <tr align="center"><th>#</th><th>COUNTY</th><th>Reg. Voters</th>
+					    	<th colspan="2">ASP #1</th>
+					    	<th colspan="2">ASP #2</th>
+					    	<th colspan="2">ASP #3</th>
+					    	<th colspan="2">ASP #4</th>
+					    </tr>
+					    <tr>
+					    	<td></td>
+					    	<td></td>
+					    	<td></td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    </tr>
+					    {% for county in counties %}
+					    <tr>
+					    	<td>{{ forloop.counter }}</td>
+					    	<td>{{ county.county__name }}</td>
+					    	<td align="right">{{ county.t_voters|intcomma }}</td>
+					    	<td align="right">{{ county.asp1|intcomma }}</td>
+					    	<td align="right">{{ county.pasp1|intcomma }}</td>
+					    	<td align="right">{{ county.asp2|intcomma }}</td>
+					    	<td align="right">{{ county.pasp2|intcomma }}</td>
+					    	<td align="right">{{ county.asp4|intcomma }}</td>
+					    	<td align="right">{{ county.pasp4|intcomma }}</td>
+					    	<td align="right">{{ county.asp3|intcomma }}</td>
+					    	<td align="right">{{ county.pasp3|intcomma }}</td>
+					    </tr>
+                        {% endfor %}
+                        <tr>
+					    	<td></td><td><b>TOTALS</b></td>
+					    	<td align="right"><b>{{ votes.total_voters|intcomma }}</b></td>
+					    	<td align="right"><b>{{ votes.total_asp1|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp1 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp2|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp2 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp4|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp4 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp3|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp3 }}</td>
+					    </tr>
+				        </table>
+				</li>
+				{% endif %}
+
+			</ul>
+			<!-- end forum-list -->
+		</div>
+		<!-- end card-forum -->
+	</div>
+	<!-- end col-12 -->
+</div>
+<!-- end row -->
+{% endblock %}

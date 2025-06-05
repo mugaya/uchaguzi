@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block page_title %} Contact us {% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}	
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-9 -->
+	<div class="col-lg-9">
+			<!-- begin forum-list -->
+			<ul class="forum-list forum-detail-list mb-4">
+
+				<li>
+					<!-- begin media -->
+					<div class="media">
+						<img src="{% static 'img/kenya.png' %}" alt="" class="rounded-3" />
+						<span class="badge fw-bold fs-10px rounded-2 bg-red">ADMIN</span>
+					</div>
+					<!-- end media -->
+					<!-- begin info-container -->
+					<div class="info-container">
+						<div class="post-user"><a href="#">We</a> <small>Say</small></div>
+						<div class="post-content">
+							Who we are : A group of Volunteers<br /><br />
+							Email: info@kenyaelection.org
+						</div>
+						<div class="post-time">Just Now</div>
+					</div>
+					<!-- end info-container -->
+				</li>
+
+			</ul>
+			<!-- end forum-list -->
+		<!-- begin comment-section -->
+		<div class="comment-banner-msg">
+			Our data Source: <a href="https://www.iebc.or.ke" target="blank">www.iebc.or.ke (Independent Electoral and Boundaries Commission)</a>.
+		</div>
+		<!--
+		<form action="/" name="form_comment" method="POST">
+			<div class="card card-forum mb-4 mb-lg-0">
+				<div class="card-header">Comment</div>
+				<div class="card-body p-0">
+					<textarea class="textarea form-control" id="comment" placeholder="Leave your comment here ..." rows="12"></textarea>
+				</div>
+				<div class="card-footer bg-light">
+					<button type="submit" class="btn btn-lg btn-inverse">Post Comment </button>
+				</div>
+			</div>
+		</form>
+		-->
+		<!-- end comment-section -->
+	</div>
+	<!-- end col-9 -->
+	<!-- begin col-3 -->
+	<div class="col-lg-3">
+		<!-- begin panel-forum -->
+		<div class="card card-forum">
+			<div class="card-header fw-bold">Quick Links</div>
+			<!-- begin threads-list -->
+			<ul class="threads-list">
+				<li>
+					<h4 class="title"><a href="{% url 'position' pos_id='PR' %}">Candidates</a></h4>
+				</li>
+				<li>
+					<h4 class="title"><a href="{% url 'counties' %}">Counties</a></h4>
+				</li>
+				<li>
+					<h4 class="title"><a href="{% url 'result' pos_id='PR' %}">Results</a></h4>
+				</li>			
+			</ul>
+			<!-- end threads-list -->
+		</div>
+		<!-- end panel-forum -->
+	</div>
+	<!-- end col-3 -->
+</div>
+<!-- end row -->
+{% endblock %}

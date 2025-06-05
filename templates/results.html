@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block page_title %} {{ page_header }} {{ name }} {% endblock %}
+
+{% block banner %}
+	
+<!-- begin page-title -->
+<div class="page-title has-bg">
+	<!-- begin bg-cover -->
+	<div class="bg-cover" data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.01"  style="background-image: url({% static 'img/cover/cover-2.jpg' %})"></div>
+	<!-- end bg-cover -->
+	<!-- begin container -->
+	<div class="container">
+		<!-- begin breadcrumb -->
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item active">&nbsp;</li>
+		</ul>
+		<!-- end breadcrumb -->
+		<h1>{{ page_header }}</h1>
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page-title -->
+	
+{% endblock %}
+{% block primary %}	
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-12 -->
+	<p>By Year: <a href="{% url 'results' pos_id='PR' year=2022 %}">2022</a> | <a href="{% url 'results' pos_id='PR' year=2017 %}">2017</a> | <a href="{% url 'results' pos_id='PR' year=2013 %}">2013</a></p>
+	<div class="col-lg-12">
+		<!-- begin card-forum -->
+		<div class="card card-forum mb-4">
+			<!-- begin forum-list -->
+			<ul class="forum-list forum-topic-list">
+
+				<li>
+					<!-- begin media -->
+					<div class="media">
+						<img src="{% static 'img/kenya.png' %}" alt="" class="rounded-lg" />
+					</div>
+					<!-- end media -->
+					<!-- begin info-container -->
+					<div class="info-container">
+						<div class="info">
+							<h4 class="title"><a href="#">{{ pname }} Results</a></h4>
+							<ul class="info-start-end">
+								<li>Last updated <a href="#">{{ today }}</a></li>
+							</ul>
+						</div>
+						<div class="date-replies">
+							<div class="replies">
+								<div class="total">{{ votes.turnout }}%</div>
+								<div class="text">TURNOUT</div>
+							</div>
+						</div>
+					</div>
+					<!-- end info-container -->
+				</li>
+				{% if aspirants %}
+				<li>
+					<hr>
+					    <table class="table">
+					    <tr align="center">
+					    	<th></th><th>ASPIRANT</th><th>PARTY</th><th>TOTAL VOTES</th><th>%</th>
+					    </tr>
+						{% for aspirant in aspirants %}
+						<tr>
+							<td>{{ forloop.counter }} . </td>
+							<td>{{ aspirant.candidate_names }} - <small>{{ aspirant.running_mate_names }}</small></td>
+							<td>{{ aspirant.party.abbrev }}</td>
+							<td align="right">
+							    {% if forloop.counter == 1 %}{{ votes.total_asp1|intcomma }}
+							    {% elif forloop.counter == 2 %}{{ votes.total_asp2|intcomma }}
+							    {% elif forloop.counter == 3 %}{{ votes.total_asp3|intcomma }}
+							    {% elif forloop.counter == 4 %}{{ votes.total_asp4|intcomma }}
+							    {% elif forloop.counter == 5 %}{{ votes.total_asp5|intcomma }}
+							    {% elif forloop.counter == 6 %}{{ votes.total_asp6|intcomma }}
+							    {% elif forloop.counter == 7 %}{{ votes.total_asp7|intcomma }}
+							    {% elif forloop.counter == 8 %}{{ votes.total_asp8|intcomma }}
+							    {% endif %}
+							</td>
+							<td align="right">
+							    {% if forloop.counter == 1 %}{{ votes.total_pasp1|intcomma }}
+							    {% elif forloop.counter == 2 %}{{ votes.total_pasp2|intcomma }}
+							    {% elif forloop.counter == 3 %}{{ votes.total_pasp3|intcomma }}
+							    {% elif forloop.counter == 4 %}{{ votes.total_pasp4|intcomma }}
+							    {% elif forloop.counter == 5 %}{{ votes.total_pasp5|intcomma }}
+							    {% elif forloop.counter == 6 %}{{ votes.total_pasp6|intcomma }}
+							    {% elif forloop.counter == 7 %}{{ votes.total_pasp7|intcomma }}
+							    {% elif forloop.counter == 8 %}{{ votes.total_pasp8|intcomma }}
+							    {% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+
+				        </table>
+				</li>
+				<li>
+					<hr>
+					    <table class="table">
+					    <tr align="center">
+					    	<th>#</th><th>COUNTY</th><th>Reg. Voters</th>
+					    	<th colspan="2">{{ votes.asp1_name }}</th>
+					    	<th colspan="2">{{ votes.asp2_name }}</th>
+					    	<th colspan="2">{{ votes.asp3_name }}</th>
+					    	<th colspan="2">{{ votes.asp4_name }}</th>
+					    	<th>TURNOUT</th>
+					    </tr>
+					    <tr>
+					    	<td></td>
+					    	<td></td>
+					    	<td></td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">Votes</td>
+					    	<td align="right">%</td>
+					    	<td align="right">%</td>
+					    </tr>
+					    {% for county in counties %}
+					    <tr>
+					    	<td>{{ forloop.counter }}</td>
+					    	<td>{{ county.county__name }}</td>
+					    	<td align="right">{{ county.t_voters|intcomma }}</td>
+					    	<td align="right">{{ county.asp1|intcomma }}</td>
+					    	<td align="right">{{ county.pasp1|intcomma }}</td>
+					    	<td align="right">{{ county.asp2|intcomma }}</td>
+					    	<td align="right">{{ county.pasp2|intcomma }}</td>
+					    	<td align="right">{{ county.asp3|intcomma }}</td>
+					    	<td align="right">{{ county.pasp3|intcomma }}</td>
+					    	<td align="right">{{ county.asp4|intcomma }}</td>
+					    	<td align="right">{{ county.pasp4|intcomma }}</td>
+					    	<td align="right">{{ county.turnout }}</td>
+					    </tr>
+                        {% endfor %}
+                        <tr>
+					    	<td></td><td><b>TOTALS</b></td>
+					    	<td align="right"><b>{{ votes.total_voters|intcomma }}</b></td>
+					    	<td align="right"><b>{{ votes.total_asp1|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp1 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp2|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp2 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp3|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp3 }}</td>
+					    	<td align="right"><b>{{ votes.total_asp4|intcomma }}</b></td>
+					    	<td align="right"># {{ votes.total_casp4 }}</td>
+					    	<td align="right">{{ votes.turnout }}</td>
+					    </tr>
+					    {% if year == 2022 %}
+					    <tr>
+					    	<td></td><td><b>Reporting</b></td>
+					    	<td colspan="10">					    		
+						        287/291 Constituencies ( 8 out of the total 34B uploaded are problematic)
+						        <br> 4 (WEST MUGIRANGO, SUBA SOUTH, NDHIWA &amp; STAREHE) have been tallied based on verified results.
+						        <br> 4 (KILIFI NORTH, TIGANIA EAST, NAROK WEST &amp; MVITA) are missing from this count)
+						        <hr>
+						        3 (KISAUNI, DADAAB &amp; BORABU) were uploaded almost 24 hours after the final results had been announced.					        
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<td></td><td><b>Last Updated</b></td>
+					    	<td colspan="10">					    		
+						        16 August 2022, 18:10 PM EAT						        
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<td></td><td><b>Notice</b></td>
+					    	<td colspan="10">
+					    	   <p style="color: #ff0000;">
+					    	   	Please note these are not official results but a tracking of original posted results in Form 34B by the IEBC at forms.iebc.or.ke. The law states that 34B can be changed but 34A remains final.
+					    	   </p>					    		
+						        						        
+					    	</td>
+					    </tr>
+					    {% endif %}
+				        </table>				        
+				</li>
+				{% endif %}
+
+			</ul>
+			<!-- end forum-list -->
+		</div>
+		<!-- end card-forum -->
+	</div>
+	<!-- end col-12 -->
+</div>
+<!-- end row -->
+{% endblock %}
