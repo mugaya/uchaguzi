@@ -547,7 +547,7 @@ def polls(request):
 def result(request, pos_id, year=2022):
     """Page to render home."""
     try:
-        aspirants = None
+        aspirants, voters = [], []
         counts = 0
         pname = ''
         votes = {'total_voters': 0, 'total_rejected': 0, 'total_valid': 0}
