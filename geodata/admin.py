@@ -3,6 +3,7 @@ from .models import WardMaps
 from .utils import dump_to_csv
 
 
+'''
 class WardMapsAdmin(admin.ModelAdmin):
     """Admin back end for Geo data management."""
 
@@ -16,3 +17,7 @@ class WardMapsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(WardMaps, WardMapsAdmin)
+'''
+
+
+admin.site.register(WardMaps, admin.ModelAdmin)
